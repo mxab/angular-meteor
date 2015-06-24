@@ -1,7 +1,7 @@
-
+<template name="tutorial.step_02.html">
   <div class="row">
     <div class="col-md-12">
-        <a href="https://github.com/Urigo/angular-meteor/edit/master/.docs/angular-meteor/client/views/steps/tutorial.step_02.tpl"
+        <a href="https://github.com/Urigo/angular-meteor/edit/master/.docs/angular-meteor/client/views/steps/tutorial.step_02.html"
            class="btn btn-default btn-lg improve-button">
           <i class="glyphicon glyphicon-edit">&nbsp;</i>Improve this doc
         </a>
@@ -21,7 +21,7 @@
     </div>
 
     <do-nothing class="col-md-12">
-    <btf-markdown>
+  {{#markdown}}
 
 Now it's time to make the web page dynamic — with AngularJS.
 
@@ -33,7 +33,7 @@ With that in mind, let's use a little Angular and JavaScript to add model, view,
 
 Goals for this step:
 
-* The list of three parties is now generated dynamically from data in the model of the client
+* Generate the parties list dynamically from data in a model (client only for now).
 
 
 # View and Template
@@ -44,18 +44,15 @@ The view component is constructed by Angular from this template:
 
 __`index.ng.html`:__
 
-      </btf-markdown>
-<pre><code><span class="xml">
-<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">ng-controller</span>=<span class="hljs-value">"PartiesListCtrl"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">ul</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">ng-repeat</span>=<span class="hljs-value">"party in parties"</span>&gt;</span>
-      </span><span class="hljs-expression">{{<span class="hljs-variable">party.name</span>}}</span><span class="xml">
-      <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span></span><span class="hljs-expression">{{<span class="hljs-variable">party.description</span>}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span></span>
-</code></pre>
-      <btf-markdown>
+    <div ng-controller="PartiesListCtrl">
+      <ul>
+        <li ng-repeat="party in parties">
+          {{dstache}}party.name}}
+          <p>{{dstache}}party.description}}</p>
+        </li>
+      </ul>
+    </div>
+
 We replaced the hard-coded party list with the [ngRepeat](https://docs.angularjs.org/api/ng/directive/ngRepeat) directive and two Angular expressions:
 
 * The ng-repeat="party in parties" attribute in the li tag is an Angular repeater directive. The repeater tells Angular to create a li element for each party in the list using the li tag as the template.
@@ -98,7 +95,7 @@ The controller is simply a constructor function that takes a $scope parameter.
 
 The data model (a simple array of parties in object literal notation) is now instantiated within the PartiesListCtrl controller.
 
-Although the controller is not yet doing very much, it plays a crucial role. By providing context for our data model, the controller allows us to establish data-binding between the model and the view. We connected the dots between the presentation, data, and logic components as follows:
+Although the controller is not yet doing very much, it plays a crucial role. By providing context for our data model, the controller allows us to establish data-binding between the model and the view. We connected the dots between the presentation, the data, and the logic components as follows:
 
 * The ngController directive, located on the body tag, references the name of our controller, PartiesListCtrl (located in the JavaScript file app.js).
 
@@ -119,12 +116,11 @@ As you can see, when we declared the controller, we used strings for [dependency
         // ...
     }]);
 
-There is a very popular Angular tool that's called [ng-annotate](https://github.com/olov/ng-annotate) that takes care of that for us so we can write regular code like it's not
-going through minification.
+There is a very popular Angular tool that's called [ng-annotate](https://github.com/olov/ng-annotate) that takes care of that for us so we can write regular code that won't get mangled in minification.
 
-angular-meteor uses that process automatically. all you need to do is to change your .js files endings to .ng.js
+angular-meteor uses that process automatically. All you need to do is to change your .js files to end with .ng.js
 
-then you can write your dependency injection like this:
+Then you can write your dependency injection like this:
 
     angular.module("socially").controller("PartiesListCtrl",
       function($scope){
@@ -135,50 +131,28 @@ then you can write your dependency injection like this:
 
 Add another binding to index.ng.html , For example:
 
-</btf-markdown>
+    <p>Total number of parties: {{dstache}}parties.length}}</p>
 
-<pre><code>
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Total number of parties: </span><span class="hljs-expression">{{<span class="hljs-variable">parties.length</span>}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span></span>
-</code></pre>
-
-<btf-markdown>
-
-Create a new model property in the controller (inside app.js) and bind to it from the template. For example:
+Create a new model property in the controller (inside app.js) and bind to it in the template. For example:
 
       $scope.name = "World";
 
-Then add a new binding to index.ng.html:
+Then add a new binding to `index.ng.html`:
 
-</btf-markdown>
-<pre><code>
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Hello, </span><span class="hljs-expression">{{<span class="hljs-variable">name</span>}}</span><span class="xml">!<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span></span>
-</code></pre>
-<btf-markdown>
+    $scope.name = "World";
 
 Verify that it says "Hello, World!".
 
 Create a repeater in index.ng.html that constructs a simple table:
 
-      </btf-markdown>
-
-<pre><code>
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">table</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">tr</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">th</span>&gt;</span>row number<span class="hljs-tag">&lt;/<span class="hljs-title">th</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">tr</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">tr</span> <span class="hljs-attribute">ng-repeat</span>=<span class="hljs-value">"i in [0, 1, 2, 3, 4, 5, 6, 7]"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">td</span>&gt;</span></span><span class="hljs-expression">{{<span class="hljs-variable">i</span>}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-title">td</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">tr</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">table</span>&gt;</span></span>
-      </code></pre>
-        <btf-markdown>
+    <p>Hello, {{dstache}}name}}!</p>
 
 Now, make the list 1-based by incrementing i by one in the binding:
 
-        </btf-markdown>
-<pre><code>
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">table</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">tr</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">th</span>&gt;</span>row number<span class="hljs-tag">&lt;/<span class="hljs-title">th</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">tr</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">tr</span> <span class="hljs-attribute">ng-repeat</span>=<span class="hljs-value">"i in [0, 1, 2, 3, 4, 5, 6, 7]"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">td</span>&gt;</span></span><span class="hljs-expression">{{<span class="hljs-variable">i</span>+1}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-title">td</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">tr</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">table</span>&gt;</span></span>
-      </code></pre>
-      <btf-markdown>
+    <table>
+      <tr><th>row number</th></tr>
+      <tr ng-repeat="i in [0, 1, 2, 3, 4, 5, 6, 7]"><td>{{dstache}}i}}</td></tr>
+    </table>
 
 Extra points: try and make an 8x8 table using an additional ng-repeat.
 
@@ -186,11 +160,11 @@ Extra points: try and make an 8x8 table using an additional ng-repeat.
 
 You now have a dynamic app that features separate model, view, and controller components.
 
-But, this is all client side, which is nice for tutorials, but in a real application we need to save the data in a DB on the server and sync all the clients with it.
+But, this is all client side, which is nice for tutorials, but in a real application we need to persist the data on the server and sync all the clients with it.
 
 So, let's go to step 3 to learn how to bind ourselves to the great power of Meteor.
 
-    </btf-markdown>
+  {{/markdown}}
     </do-nothing>
     <div class="col-md-12">
     <ul class="btn-group tutorial-nav">
@@ -201,3 +175,4 @@ So, let's go to step 3 to learn how to bind ourselves to the great power of Mete
     </ul>
     </div>
   </div>
+</template>
