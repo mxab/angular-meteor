@@ -20,29 +20,23 @@ describe('$scope.getReactively', function () {
   }));
 
 
-  describe('getReactively on nested properties', function () {
-    it('push updates from client handled correctly', function (done) {
-
-      $rootScope.limit = 10;
-      var $scope = $rootScope.$new();
-
-      $scope.foo = "bar";
-      $scope.vm = {sort: "newest"};
-
-      $scope.$digest();
+  it('should have the same values in autorun as set on scope', function (done) {
 
 
-      $scope.$meteorAutorun(function () {
-        expect($scope.getReactively('foo')).toEqual('bar');
-        expect($scope.getReactively('vm.limit')).toEqual('newest');
-        done()
-      });
-      $timeout.flush();
+    var $scope = $rootScope.$new();
+
+    $scope.foo = "bar";
+    $scope.vm = {sort: "newest"};
 
 
-
-
+    $scope.$meteorAutorun(function () {
+      expect($scope.getReactively('foo')).toEqual('bar');
+      expect($scope.getReactively('vm.sort')).toEqual('newest');
+      done()
     });
+    $timeout.flush();
+
+
   });
 
 
