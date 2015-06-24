@@ -73,7 +73,8 @@ Package.onTest(function(api) {
     'tests/integration/angular-meteor-diff-array-spec.js',
     'tests/integration/angular-meteor-collection-spec.js',
     'tests/integration/angular-meteor-utils-spec.js',
-    'tests/integration/test_collections.js'
+    'tests/integration/test_collections.js',
+    'tests/integration/angular-meteor-getReactively-spec.js'
   ], 'client');
 
   api.addFiles([
