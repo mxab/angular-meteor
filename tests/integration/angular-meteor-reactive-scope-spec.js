@@ -85,24 +85,27 @@ describe('$scope.getReactively', function () {
 
   it('should have initial scope value', function (done) {
 
-    angular.module('myApp', ['angular-meteor']).controller('MyController', function ($scope) {
+    angular.module('myApp', ['angular-meteor']).controller('MyController', function ($scope, $timeout) {
       var vm = this;
       vm.message = 'Hello World';
 
-      $scope.$meteorAutorun(function () {
-        var message = $scope.getReactively('vm.message');
-        expect(message).toBe('Hello World');
-        done();
+      $timeout(function(){
+        $scope.$meteorAutorun(function () {
+          var message = $scope.getReactively('vm.message');
+          expect(message).toBe('Hello World');
+          done();
+        });
       });
+
     });
 
     module('myApp');
 
-    inject(function ($controller, $q, $rootScope) {
+    inject(function ($controller, $q, $rootScope,_$timeout_) {
 
       var scope = $rootScope.$new();
       $controller('MyController as vm', {$scope: scope});
-
+      _$timeout_.flush();
     })()
 
   });
