@@ -7,7 +7,7 @@ describe('$scope.getCollectionReactively', function () {
     jasmine.addMatchers(customMatchers);
   });
 
-  beforeEach(angular.mock.inject(function (_$rootScope_) {
+  beforeEach(angular.mock.inject(function ( _$rootScope_) {
 
     $rootScope = _$rootScope_;
 
@@ -85,7 +85,7 @@ describe('$scope.getReactively', function () {
 
   it('should have initial scope value', function (done) {
 
-    angular.module('myApp', ['angular-meteor']).controller('MyController', ['$scope', function ($scope) {
+    angular.module('myApp', ['angular-meteor']).controller('MyController', function ($scope) {
       var vm = this;
       vm.message = 'Hello World';
 
@@ -94,7 +94,7 @@ describe('$scope.getReactively', function () {
         expect(message).toBe('Hello World');
         done();
       });
-    }]);
+    });
 
     module('myApp');
 
@@ -104,6 +104,6 @@ describe('$scope.getReactively', function () {
       $controller('MyController as vm', {$scope: scope});
 
     })()
-    
+
   });
 });
